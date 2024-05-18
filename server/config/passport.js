@@ -29,22 +29,22 @@ passport.use(new LocalStategy(
     }
 ))
 
-// passport.use(new GoogleStrategy({
-//     clientID: 'CLIENT_ID',
-//     clientSecret: 'CLIENT_SECRET',
-//     callbackURL: "http://localhost:8000/api/auth/google",
-//     scope: ['openid', 'email', 'profile']
-//   },
-//   async function(accessToken, refreshToken, profile, cb) {
-//     const user = await User.find({googleid: profile.id})
-//     const newUser = await new User({
-//         googleid: profile.id,
-//         full_name: profile.displayName,
-//         email: profile.emails[0].value
-//     }).save()
-//     return cb(null, newUser)
-//   }
-// ));
+passport.use(new GoogleStrategy({
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    callbackURL: "http://localhost:8000/api/auth/google",
+    scope: ['openid', 'email', 'profile']
+  },
+  async function(accessToken, refreshToken, profile, cb) {
+    const user = await User.find({googleid: profile.id})
+    const newUser = await new User({
+        googleid: profile.id,
+        full_name: profile.displayName,
+        email: profile.emails[0].value
+    }).save()
+    return cb(null, newUser)
+  }
+));
 
 passport.serializeUser(function(user, done){
     console.log(user);
